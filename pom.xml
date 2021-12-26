@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.udacity.jwdnd.course1</groupId>
-    <artifactId>cloudstorage</artifactId>
+    <artifactId>superduperdrive</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>cloudstorage</name>
+    <name>superduperdrive</name>
     <description>Final Project for Udacity's Spring Boot Basics course.</description>
 
     <properties>

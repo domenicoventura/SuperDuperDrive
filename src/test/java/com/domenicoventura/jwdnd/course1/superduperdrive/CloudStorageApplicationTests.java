@@ -1,4 +1,4 @@
-package com.udacity.jwdnd.course1.cloudstorage;
+package com.domenicoventura.jwdnd.course1.superduperdrive;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
@@ -14,7 +14,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 
 import java.io.File;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CloudStorageApplicationTests {
+class SuperDuperDriveApplicationTests {
 
 	@LocalServerPort
 	private int port;
