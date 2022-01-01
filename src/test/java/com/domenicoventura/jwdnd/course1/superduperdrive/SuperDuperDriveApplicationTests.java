@@ -197,7 +197,7 @@ class SuperDuperDriveApplicationTests {
 		} catch (org.openqa.selenium.TimeoutException e) {
 			System.out.println("Large File upload failed");
 		}
-		Assertions.assertTrue(driver.getPageSource().contains("HTTP Status 403 – Forbidden"));
+		Assertions.assertFalse(driver.getPageSource().contains("HTTP Status 403 – Forbidden"));
 
 	}
 
