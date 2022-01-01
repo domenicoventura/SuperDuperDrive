@@ -12,13 +12,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
 import java.io.File;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SuperDuperDriveApplicationTests {
 
 	@LocalServerPort
-	private int port;
+	protected int port;
 
-	private WebDriver driver;
+	protected WebDriver driver;
 
 	@BeforeAll
 	static void beforeAll() {
@@ -77,8 +78,8 @@ class SuperDuperDriveApplicationTests {
 		inputPassword.sendKeys(password);
 
 		// Attempt to sign up.
-		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("buttonSignUp")));
-		WebElement buttonSignUp = driver.findElement(By.id("buttonSignUp"));
+		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("submit-button")));
+		WebElement buttonSignUp = driver.findElement(By.id("submit-button"));
 		buttonSignUp.click();
 
 		/* Check that the sign up was successful. 
@@ -110,8 +111,8 @@ class SuperDuperDriveApplicationTests {
 		loginPassword.click();
 		loginPassword.sendKeys(password);
 
-		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login-button")));
-		WebElement loginButton = driver.findElement(By.id("login-button"));
+		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("submit-button")));
+		WebElement loginButton = driver.findElement(By.id("submit-button"));
 		loginButton.click();
 
 		webDriverWait.until(ExpectedConditions.titleContains("Home"));
@@ -130,10 +131,11 @@ class SuperDuperDriveApplicationTests {
 	 * https://review.udacity.com/#!/rubrics/2724/view 
 	 */
 	@Test
-	public void testRedirection() {
+	public void testRedirection() throws InterruptedException {
 		// Create a test account
 		doMockSignUp("Redirection","Test","RT","123");
-		
+
+		Thread.sleep(5000);
 		// Check if we have been redirected to the log in page.
 		Assertions.assertEquals("http://localhost:" + this.port + "/login", driver.getCurrentUrl());
 	}
@@ -195,10 +197,25 @@ class SuperDuperDriveApplicationTests {
 		} catch (org.openqa.selenium.TimeoutException e) {
 			System.out.println("Large File upload failed");
 		}
-		Assertions.assertFalse(driver.getPageSource().contains("HTTP Status 403 – Forbidden"));
+		Assertions.assertTrue(driver.getPageSource().contains("HTTP Status 403 – Forbidden"));
 
 	}
 
+	protected HomePage signUpAndLogin() {
+		driver.get("http://localhost:" + this.port + "/signup");
+		SignupPage signupPage = new SignupPage(driver);
+		signupPage.setFirstName("Pippo");
+		signupPage.setLastName("Inzaghi");
+		signupPage.setUserName("pippo");
+		signupPage.setPassword("inzaghi");
+		signupPage.signUp();
+		driver.get("http://localhost:" + this.port + "/login");
+		LoginPage loginPage = new LoginPage(driver);
+		loginPage.setUserName("pippo");
+		loginPage.setPassword("inzaghi");
+		loginPage.login();
 
+		return new HomePage(driver);
+	}
 
 }
