@@ -72,12 +72,15 @@ public class HomeController {
                 break;
             }
         }
-        if (!fileIsDuplicate) {
+        if ((!fileIsDuplicate) && (!fileName.isEmpty())) {
             fileService.addFile(multipartFile, userName);
             model.addAttribute("result", "success");
-        } else {
+        } else if (fileIsDuplicate) {
             model.addAttribute("result", "error");
             model.addAttribute("message", "You have tried to add a duplicate file.");
+        } else if (fileName.isEmpty()) {
+            model.addAttribute("result", "error");
+            model.addAttribute("message", "You have tried to add an empty file.");
         }
         model.addAttribute("files", fileService.getFileListings(userId));
 
